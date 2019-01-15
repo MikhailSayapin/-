@@ -14,7 +14,7 @@ public:
 		mas = new T[size];
 		for (int i = 0; i < other.size; i++)
 		{
-			mas[i] = other.mas[i];
+			mas[i] = other.mas[i]; //здесь ошибка
 		}
 	}
 
@@ -27,28 +27,35 @@ public:
 
 	my_vec()
 	{
-		size = 6;
+		size = 0;
 		capacity = 8;
-		mas = nullptr;
+		mas = new T[capacity];
 	}
 
 	~my_vec()
 	{
 		delete mas;
+		capacity = size = 0;
 	}
 
 	void push_back(T data)
 	{
-		mas = new T[size];
-
-		if (size <= capacity)
+		if (size < capacity)
 		{
 			*mas[size] = data;
 			size++;
 		}
 
 		else
+		{
 			capacity *= 2;
+			T * temp = new T[capacity];
+			for (int i = 0; i < size; i++)
+			{
+				temp[i] = mas[i];
+			}
+			mas = temp;
+		}
 	}
 private:
 	int capacity; //переменный capacity
@@ -59,7 +66,6 @@ private:
 int main()
 {
 	my_vec<int> mv1;
-	my_vec<int> mv2(mv1);
-
 	//mv1.push_back(2);
+	my_vec<int> mv2(mv1);
 }
